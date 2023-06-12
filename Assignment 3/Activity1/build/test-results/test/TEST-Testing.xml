@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Testing" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-05-29T19:55:47" hostname="Aman" time="0.026">
+  <properties/>
+  <testcase name="echoCorrect" classname="Testing" time="0.01"/>
+  <testcase name="typeWrong" classname="Testing" time="0.007"/>
+  <testcase name="echoErrors" classname="Testing" time="0.002"/>
+  <system-out><![CDATA[{"ok":true}
+{"ok":false,"message":"Field data does not exist in request"}
+{"ok":true}
+{"ok":true}
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
