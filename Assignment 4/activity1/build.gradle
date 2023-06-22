@@ -1,0 +1,91 @@
+plugins {
+	id 'java'
+	id 'application'
+}
+
+apply plugin: 'application'
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    implementation group: 'org.json', name: 'json', version: '20200518'
+}
+
+//define main class
+mainClassName = 'Concentration'
+
+task runTask1(type: JavaExec) {
+  group 'server'
+  description 'Creates Server socket waits for messages'
+  
+  classpath = sourceSets.main.runtimeClasspath
+
+  main = 'taskone.Server'
+  standardInput = System.in
+  
+  // run with arguments e.g.: gradle runTask1 -Pport=8888 -q --console=plain
+  if (project.hasProperty('port')) {
+    args(project.getProperty('port'));
+  }
+  args 8000
+}
+
+task runTask2(type: JavaExec) {
+  group 'server'
+  description 'Creates Server socket waits for messages'
+  
+  classpath = sourceSets.main.runtimeClasspath
+
+  main = 'taskone.ThreadedServer'
+  standardInput = System.in
+  
+  // run with arguments e.g.: gradle runTask2 -Pport=8888 -q --console=plain
+  if (project.hasProperty('port')) {
+    args(project.getProperty('port'));
+  }
+
+  args 8000
+}
+
+task runTask3(type: JavaExec) {
+  group 'server'
+  description 'Creates Server socket waits for messages'
+  
+  classpath = sourceSets.main.runtimeClasspath
+
+  main = 'taskone.ThreadPoolServer'
+  standardInput = System.in
+  
+  // run with arguments e.g.: gradle runTask3 -Pport=8000 -Pbound=10 -q --console=plain
+  if (project.hasProperty('port') && project.hasProperty('bound')) {
+    args(port, bound)
+  } else if (!project.hasProperty('port') && project.hasProperty('bound')) {
+    args(8000, bound)
+  }
+  else { args(8000, 10) }
+}
+
+task runClient(type: JavaExec) {
+  group 'client'
+  description 'Creates client socket sends a message to the server'
+  
+  classpath = sourceSets.main.runtimeClasspath
+  standardInput = System.in
+
+  main = 'taskone.Client'
+  standardInput = System.in
+  
+  // run with arguments e.g.: gradle runClient -Phost=localhost -Pport=8888 -q --console=plain
+  if (project.hasProperty("host") && project.hasProperty('port')) {
+    args(project.getProperty('host'), project.getProperty('port'));
+  }
+
+  args "localhost"
+  args 8000
+  
+}
