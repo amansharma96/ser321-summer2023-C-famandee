@@ -1,0 +1,52 @@
+plugins {
+    id 'java'
+}
+
+group 'com.example'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 13
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.google.guava:guava:31.1-jre'
+}
+
+
+task runLeader(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'leader.LeaderMain'
+    args = ['8888']
+}
+
+task runClient1(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'client.ClientMain'
+    standardInput = System.in // Allows reading input from the console
+    args = ['localhost', '8888'] // Replace with appropriate server host and port
+}
+
+task runClient2(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'client.ClientMain'
+    standardInput = System.in // Allows reading input from the console
+    args = ['localhost', '8888'] // Replace with appropriate server host and port
+}
+
+
+task runNode1(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'node.NodeMain'
+    args = ['localhost', '8888', 'src/main/resources/node1_books.txt']
+}
+
+task runNode2(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'node.NodeMain'
+    args = ['localhost', '8888', 'src/main/resources/node2_books.txt']
+}
+
+

@@ -1,0 +1,4 @@
+Book1,true
+Book2,true
+Book3,false
+Book4,true
