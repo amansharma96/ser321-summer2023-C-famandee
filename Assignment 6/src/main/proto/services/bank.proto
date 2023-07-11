@@ -1,0 +1,59 @@
+// This service acts as a bank and supports deposits, withdrawls and signing up as a customer. A name will be the unique identifier for an account. 
+// A client can sign up for the bank, make deposits and make withdrawls. The server should save the state and maintain it even if the server crashes.
+// So you should save all the data in a JSON or proto file (that is up to you). When starting the server the server should read the data in. 
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "service";
+option java_outer_classname = "BankProto";
+
+package services;
+
+service Bank {
+  rpc signUp (BankSignUpRequest) returns (BankSignUpResponse) {}
+  rpc deposit (BankRequest) returns (BankResponse) {}
+  rpc withdraw (BankRequest) returns (BankResponse) {}
+  rpc accountStatus (BankAccountStatusRequest) returns (BankAccountStatusResponse) {}
+}
+
+// The request message adding a new entry to the server
+message BankSignUpRequest {
+    string name = 1; // name to create the account under
+}
+
+// The response message adding a new entry to the server
+message BankSignUpResponse {
+    bool isSuccess = 1;  // If the account doesnt exist add it and return success, else return false and explain why in error.
+    string error = 2; // Error message if isSuccess = false detailing what went wrong.
+}
+
+// Request to make a deposit/withdraw
+message BankRequest {
+    string name = 1; // Name of the account
+    double amount = 2; // Amount to deposit/withdraw
+}
+
+// Response to make a deposit/withdraw
+message BankResponse {
+    bool isSuccess = 1; //Success if deposited/withdraw, else fail if account does not exist.
+    string error = 2; //Error message if isSuccess is false;
+}
+
+// The request to get account status
+message BankAccountStatusRequest {
+    string name = 1; // name of account
+}
+
+// The response to get account status
+message BankAccountStatusResponse {
+    bool isSuccess = 1; // true if success, false and error if account did not exist
+    Account account = 2; // Account that was retrieved
+    string error = 3; // Error message 
+}
+
+message Account {
+    string name = 1; // name of the account
+    double balance = 2; // account balance
+    int32 transactions = 3; // number of transactions account has had. Only increment if successful.
+}

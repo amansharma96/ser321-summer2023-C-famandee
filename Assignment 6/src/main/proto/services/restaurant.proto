@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "service";
+option java_outer_classname = "RestaurantProto";
+
+package services;
+import "google/protobuf/empty.proto";
+
+service RestaurantService {
+  rpc getBill (GetBillRequest) returns (GetBillResponse) {} // Get the bill details for a table
+}
+
+// REQUEST: Get bill request
+message GetBillRequest {
+  string tableNumber = 1; // Table number
+  int32 numPlates = 2;   // Number of plates eaten
+  double plateCost = 3;  // Cost per plate
+  double tipAmount = 4;  // Amount of tip to add
+}
+
+// RESPONSE: Get bill response
+message GetBillResponse {
+  bool isSuccess = 1;       // True if the operation was successful, else false
+  string message = 2;       // Response message to the user in the success case
+  string error = 3;         // Error message if isSuccess is false
+  double totalCost = 4;     // Total cost of the meal
+  double tipAmount = 5;     // Amount of tip added
+  double totalAmount = 6;   // Total amount to be paid (meal cost + tip)
+}

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "service";
+option java_outer_classname = "TaxiCompanyProto";
+
+message FareRequest {
+  double totalDistance = 1;
+  int32 totalTime = 2;
+}
+
+message FareResponse {
+  double totalFare = 1;
+}
+
+service TaxiCompanyService {
+  rpc CalculateFare(FareRequest) returns (FareResponse);
+}

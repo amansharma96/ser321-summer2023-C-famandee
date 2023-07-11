@@ -1,0 +1,48 @@
+//An integer calculator that can perform the standard operations +,-,*,/
+//The calculator has a history of statements executed and the user can retrieve them
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "service";
+option java_outer_classname = "CalculatorProto";
+
+package services;
+import "google/protobuf/empty.proto";
+
+service Recipe {
+  rpc evaluate (EvaluateRequest) returns (EvaluateResponse) {}
+  rpc history (google.protobuf.Empty) returns (HistoryResponse) {}
+}
+
+//REQUEST: request to evaluate an expressions
+message EvaluateRequest {
+  Expression expression = 1; //Expression to evaluate
+}
+
+//RESPONSE: Results of the expression evaluated
+message EvaluateResponse {
+  bool isSuccess = 1; //true if operation was successfully performed, false if otherwise
+  int32 result = 2;    //Result of the operation if it was successfully
+  string error = 3;    //Error message if isSuccess failed.
+}
+
+//RESPONSE: History of expressions performed
+message HistoryResponse {
+  repeated Expression expressions = 1;
+}
+
+//expressions type
+message Expression {
+  int32 num1 = 1;    //First Number
+  int32 num2 = 2;    //Second number
+
+  enum Operation {
+      PLUS = 0;
+      MINUS = 1;
+      MULTIPLY = 2;
+      DIVIDE = 3;
+    }
+
+    Operation operation = 3;  // Enum from above
+}
